@@ -1,0 +1,5 @@
+*~
+*.html
+*.pyc
+wiki-data/*
+mysetup*
