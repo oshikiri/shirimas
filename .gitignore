@@ -3,3 +3,8 @@
 *.pyc
 wiki-data/*
 mysetup*
+.cache/*
+output.txt
+result.csv
+trash/*
+*.sqlite

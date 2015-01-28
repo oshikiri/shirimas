@@ -11,7 +11,7 @@ from bot import get_yomi
 
 if __name__ == '__main__':
 
-    with open('./wiki-html/ru.html', 'r') as f:
+    with open('./wiki-html/u.html', 'r') as f:
         text = f.read()
 
     regex = re.compile(ur'<a href="(/wiki/[^"]*)" title="([^"()]*)(?:\s\([^)]*\))?">[^"]*<', re.U)
