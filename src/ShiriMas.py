@@ -11,13 +11,9 @@ import sys
 import re
 import string
 import MeCab
-import numpy as np
 import pandas as pd
 import sqlite3
 
-sys.path.append(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../slackbot')
-)
 from SlackBot import SlackBot
 
 
@@ -113,7 +109,7 @@ class ShiriMas(SlackBot.SlackBot):
             投稿するchannelの名前 (idではない) を指定する．
             とりあえず不正な値が設定されることは想定していない．
         '''
-        self.channel = super().get_channel_dict(self)[channel_name]
+        self.channel = super().get_channel_dict()[channel_name]
 
 
     def get_messages(self, count=1):
