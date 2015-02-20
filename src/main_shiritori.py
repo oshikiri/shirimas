@@ -9,10 +9,6 @@ __date__ = '2015-02-19'
 import os
 import sys
 
-sys.path.append(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../slackbot')
-)
-import mysetup as my
 from ShiriMas import *
 
 
@@ -37,4 +33,4 @@ if __name__ == '__main__':
 
     ## しりとりの答えを返す
     ans = sbot.get_ans(slack_newest_yomi)
-    sbot.post_shiritori(ans, slack_newest_user, slack_newest_yomi)
+#    sbot.post_shiritori(ans, slack_newest_user, slack_newest_yomi)
