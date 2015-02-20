@@ -8,3 +8,4 @@ output.txt
 result.csv
 trash/*
 *.sqlite
+*.sqlite3
