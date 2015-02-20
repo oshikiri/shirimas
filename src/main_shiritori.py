@@ -22,7 +22,6 @@ if __name__ == '__main__':
     table_name = 'history'
 
     sbot = ShiriMas('shiritori-master', db_path, table_name)
-    sbot.set_channel()
 
     ## Slackでの直近のメッセージ
     slack_newest_message = sbot.get_slack_newest_message()
@@ -32,12 +31,6 @@ if __name__ == '__main__':
 
     ## DBで直近のメッセージ
     db_newest_message = sbot.get_db_newest_message()
-
-    ## sqliteのファイルがない場合:
-   
-        print('dbを初期化します')
-        self.initialize_db()
-        
 
     ## 更新された分のメッセージをDBに追加
     sbot.append_messages(slack_newest_message, db_newest_message)

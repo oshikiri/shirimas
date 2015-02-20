@@ -81,24 +81,24 @@ class ShiriMas(SlackBot):
 
     shiritori-master
     '''
-    def __init__(self, botname, db_path, table_name):
+    def __init__(self, botname, db_path, table_name, channel_name='shiritori'):
         SlackBot.__init__(self, botname)
         self.botname = botname
         self.table_name = table_name
-        self.channel = ""
-
+        self.set_channel(channel_name)
+        
         ## もともとSQLiteのファイルが存在しない場合，
         ## 初期化する必要があると判定
         to_initialize = not os.path.exists(db_path)
-
+        
         self.connect = sqlite3.connect(db_path)
         self.cursor = self.connect.cursor()
-
+        
         if to_initialize:
             print('DBを初期化')
             self.initialize_db()
 
-    def set_channel(self, channel_name='shiritori'):
+    def set_channel(self, channel_name):
         '''ShiriMasが投稿するchannelを指定する．
 
         複数のchannelに投稿することは想定しにくいので，
