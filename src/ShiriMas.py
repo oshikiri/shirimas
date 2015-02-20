@@ -11,11 +11,10 @@ import sys
 import re
 import string
 import MeCab
-import numpy as np
 import pandas as pd
 import sqlite3
 
-from SlackBot import SlackBot
+from SlackBot.SlackBot import SlackBot
 
 
 columns = ['type', 'subtype', 'purpose', 'channel',
@@ -82,7 +81,7 @@ class ShiriMas(SlackBot):
     shiritori-master
     '''
     def __init__(self, botname, db_path, table_name, channel_name='shiritori'):
-        SlackBot.__init__(self, botname)
+        super().__init__(botname)
         self.botname = botname
         self.table_name = table_name
         self.set_channel(channel_name)
@@ -110,7 +109,7 @@ class ShiriMas(SlackBot):
             投稿するchannelの名前 (idではない) を指定する．
             とりあえず不正な値が設定されることは想定していない．
         '''
-        self.channel = SlackBot.get_channel_dict(self)[channel_name]
+        self.channel = super().get_channel_dict()[channel_name]
 
 
     def get_messages(self, count=1):
@@ -121,7 +120,7 @@ class ShiriMas(SlackBot):
         count : int, optional (default=1)
             取得する件数
         '''
-        return SlackBot.get_messages(self, channel=self.channel, count=count)
+        return super().get_messages(channel=self.channel, count=count)
 
 
     def post_message(self, message):
@@ -132,7 +131,7 @@ class ShiriMas(SlackBot):
         message: string
             postするメッセージ
         '''
-        SlackBot.post_message(self, message, self.channel)
+        super().post_message(message, self.channel)
 
 
     def get_slack_newest_message(self):
@@ -158,7 +157,7 @@ class ShiriMas(SlackBot):
         
         messages = self.get_messages(count=1000)
         df = pd.DataFrame(messages, columns=columns)
-        df['username'] = df.user.map(SlackBot.get_users_list(self))
+        df['username'] = df.user.map(super().get_users_list())
         df['yomi'] = df.text.map(yomi_shiritori)
 
         df.to_sql(self.table_name, self.connect, index=False)
@@ -182,7 +181,7 @@ class ShiriMas(SlackBot):
 
             messages = self.get_messages(count=100)
             df = pd.DataFrame(messages, columns=columns)
-            df['username'] = df.user.map(SlackBot.get_users_list(self))
+            df['username'] = df.user.map(super().get_users_list())
             df['yomi'] = df.text.map(yomi_shiritori)
 
             additional_df = df.ix[df.ts.map(float) > db_newest_ts, :]
