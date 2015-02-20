@@ -14,7 +14,7 @@ import MeCab
 import pandas as pd
 import sqlite3
 
-from SlackBot import SlackBot
+from SlackBot.SlackBot import SlackBot
 
 
 columns = ['type', 'subtype', 'purpose', 'channel',
@@ -75,7 +75,7 @@ def yomi_shiritori(text):
 
 
 
-class ShiriMas(SlackBot.SlackBot):
+class ShiriMas(SlackBot):
     '''shiritori bot for Slack
 
     shiritori-master
