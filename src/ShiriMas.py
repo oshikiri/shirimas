@@ -81,14 +81,22 @@ class ShiriMas(SlackBot):
 
     shiritori-master
     '''
-    def __init__(self, botname, token, db_path, table_name):
-        SlackBot.__init__(self, botname, token)
+    def __init__(self, botname, db_path, table_name):
+        SlackBot.__init__(self, botname)
         self.botname = botname
-        self.token = token
-        self.connect = sqlite3.connect(db_path)
-        self.cursor = self.connect.cursor()
         self.table_name = table_name
         self.channel = ""
+
+        ## もともとSQLiteのファイルが存在しない場合，
+        ## 初期化する必要があると判定
+        to_initialize = not os.path.exists(db_path)
+
+        self.connect = sqlite3.connect(db_path)
+        self.cursor = self.connect.cursor()
+
+        if to_initialize:
+            print('DBを初期化')
+            self.initialize_db()
 
     def set_channel(self, channel_name='shiritori'):
         '''ShiriMasが投稿するchannelを指定する．
@@ -137,20 +145,17 @@ class ShiriMas(SlackBot):
         '''DBの中で最新のメッセージを取ってくる
         '''
         query = ('SELECT * FROM {0} ' 
-                 'WHERE ts = (SELECT max(ts) FROM {0})' 
+                 'WHERE ts = (SELECT max(ts) FROM {0}) ' 
                  'LIMIT 1').format(self.table_name)
         return pd.read_sql(query, self.connect).ix[0,:].to_dict()
+
 
     def initialize_db(self):
         '''DBの初期化
 
-        historyチャンネルを削除して，
         最新1000件のメッセージを取得してDBに追加する
         '''
         
-        ## 既存のDBを削除
-        self.cursor.execute('DROP TABLE IF EXISTS history;')
-
         messages = self.get_messages(count=1000)
         df = pd.DataFrame(messages, columns=columns)
         df['username'] = df.user.map(SlackBot.get_users_list(self))
