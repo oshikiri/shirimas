@@ -33,4 +33,4 @@ if __name__ == '__main__':
 
     ## しりとりの答えを返す
     ans = sbot.get_ans(slack_newest_yomi)
-#    sbot.post_shiritori(ans, slack_newest_user, slack_newest_yomi)
+    sbot.post_shiritori(ans, slack_newest_user, slack_newest_yomi)
