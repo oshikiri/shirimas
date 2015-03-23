@@ -105,7 +105,7 @@ class ShiriMas(SlackBot):
 
         Args
         ===========
-        channel_name: string, optional (default='shiritori')
+        channel_name: string
             投稿するchannelの名前 (idではない) を指定する．
             とりあえず不正な値が設定されることは想定していない．
         '''
